@@ -9,7 +9,7 @@ This is a Nuker Selfbot made by Rezizt and leaked by a booster he was suspecting
 
 - Now paste this code
 ```var req=webpackJsonp.push([[],{extra_id:(e,r,t)=>e.exports=t},[["extra_id"]]]);for(let e in req.c)if(req.c.hasOwnProperty(e)){let r=req.c[e].exports;if(r&&r.__esModule&&r.default)for(let e in r.default)"getToken"===e&&console.log(r.default.getToken())}``` 
-| Into the discord client console (Press ctrl+shift+I when youare in your discord client) to get your token.
+| Into the discord client console (Press ctrl+shift+I when you are in your discord client) to get your token.
 
 - Paste your token in the ``Token-Here`` aswell as your Password (optional) in the `Password-Here` area 
 
