@@ -3,7 +3,7 @@ This is a Nuker Selfbot made by Rezizt and leaked by a booster he was suspecting
 
 ## Setup
 
-- Download the `ZIP` file and extract it by either left-clicking or using __[WINRAR](https://www.win-rar.com/postdownload.html?&L=0)__
+- Download the `ZIP` file and extract it by either right-clicking or using __[WINRAR](https://www.win-rar.com/postdownload.html?&L=0)__
 
 - Download [`PYTHON`](https://www.python.org/ftp/python/3.9.1/python-3.9.1-amd64.exe) with PATH
 
