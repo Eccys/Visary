@@ -15,12 +15,6 @@ This is a Nuker Selfbot made by Rezizt and leaked by a booster that gave me.
 
 - Run the `exploit selfbot.py` and you should see something like [This](https://what.is-inside.me/1WDU6vLL.png)
 
-- __~~[`DONE`](https://powercord.dev/powerloot)~~__
-
-\_\_\_\_\_\_↑↑↑_____________________________
-
-It is Fully functional. Don't mind the |
-
 ## Credits 
 
 ty to the guys that helped me post this and also Rezizt for making it.
