@@ -9,7 +9,7 @@ from discord.utils import get
 import json
 from urllib.request import Request, urlopen
 import random
-init(convert=True)
+init(convert=True) 
 
 intro = f"""
                                                      
