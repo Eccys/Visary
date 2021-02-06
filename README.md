@@ -1,5 +1,4 @@
 # Visary
-This is a Nuker Selfbot made by Rezizt and leaked by a booster that gave me.
 
 ## Setup
 
@@ -15,17 +14,7 @@ This is a Nuker Selfbot made by Rezizt and leaked by a booster that gave me.
 
 - Run the `exploit selfbot.py` and you should see something like [This](https://what.is-inside.me/1WDU6vLL.png)
 
-## Credits 
-
-ty to the guys that helped me post this and also Rezizt for making it.
-
 ## Info
 
 It is a JAJAJA Account Nuker and Pxrnhub Skid, which was skidded from Exeter, which was skidded from Alucard. Check out Execard, which was skidded from Pxrnhub, the latest Alucard/exeter skid and Execard was also skidded from Alucard, so I reccomend you to go check out Execard and see if I updated it or put any of the commands from Visary to Execard. I am gonna add them soon
 
-EDIT: I have added the commands but Rezizt made a broken bot so now I am gonna fix it and put it in Execard.
-
-Rezizt. You didn't give me Visary when I asked, so now it is public.
-
-
-You banned me right after I got it so you are a big gay
