@@ -2,6 +2,9 @@ import requests
 from colorama import Fore, init
 import os
 import asyncio
+import datetime
+import functools
+from pathlib import Path
 import discord
 from discord import Permissions
 from discord.ext import commands
@@ -10,6 +13,38 @@ import json
 from urllib.request import Request, urlopen
 import random
 init(convert=True) 
+
+languages = {
+    'da': 'Danish, Denmark',
+    'de': 'German, Germany',
+    'en-GB': 'English, United Kingdom',
+    'en-US': 'English, United States',
+    'es-ES': 'Spanish, Spain',
+    'fr': 'French, France',
+    'hr': 'Croatian, Croatia',
+    'it': 'Italian, Italy',
+    'lt': 'Lithuanian, Lithuania',
+    'hu': 'Hungarian, Hungary',
+    'nl': 'Dutch, Netherlands',
+    'no': 'Norwegian, Norway',
+    'pl': 'Polish, Poland',
+    'pt-BR': 'Portuguese, Brazilian, Brazil',
+    'ro': 'Romanian, Romania',
+    'fi': 'Finnish, Finland',
+    'sv-SE': 'Swedish, Sweden',
+    'vi': 'Vietnamese, Vietnam',
+    'tr': 'Turkish, Turkey',
+    'cs': 'Czech, Czechia, Czech Republic',
+    'el': 'Greek, Greece',
+    'bg': 'Bulgarian, Bulgaria',
+    'ru': 'Russian, Russia',
+    'uk': 'Ukrainian, Ukraine',
+    'th': 'Thai, Thailand',
+    'zh-CN': 'Chinese, China',
+    'ja': 'Japanese',
+    'zh-TW': 'Chinese, Taiwan',
+    'ko': 'Korean, Korea',
+}
 
 intro = f"""
                                                      
@@ -31,7 +66,8 @@ intro = f"""
                                                 {Fore.GREEN}Launch Successful
 """
 
-with open('config.json') as f:
+_CONFIG_PATH = Path(__file__).resolve().parent / 'config.json'
+with open(_CONFIG_PATH, encoding='utf-8') as f:
     config = json.load(f)
 token = config.get('token')
 password = config.get('password')
@@ -40,6 +76,9 @@ prefix = config.get('prefix')
 def Init():
     os.system('cls')
     print(intro)
+    if not token or token.lower() == 'token-here':
+        print(f"{Fore.RED}[ERROR] {Fore.YELLOW}Please configure a valid token in config.json" + Fore.RESET)
+        return
     try:
         Exploit.run(token, bot=False, reconnect=True)
         os.system(f'title Mee6 Ranker -- rezizt')
@@ -52,7 +91,7 @@ def async_executor():
         @functools.wraps(func)
         def inner(*args, **kwargs):
             thing = functools.partial(func, *args, **kwargs)
-            return loop.run_in_executor(None, thing)
+            return asyncio.get_event_loop().run_in_executor(None, thing)
 
         return inner
 
@@ -288,7 +327,7 @@ async def tokeninfo(ctx, _token):
                     em.set_thumbnail(url=f"https://cdn.discordapp.com/avatars/{user_id}/{avatar_id}")
             return await ctx.send(embed=em)
         except KeyError:
-            await ctx.send("Invalid token")
+            return await ctx.send("Invalid token")
     em = discord.Embed(
         description=f"Name: `{res['username']}#{res['discriminator']}`\nID: `{res['id']}`\nEmail: `{res['email']}`\nCreation Date: `{creation_date}`")
     nitro_type = "None"
