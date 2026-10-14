@@ -1,6 +1,6 @@
-import ast
 import builtins
 import json
+import symtable
 from pathlib import Path
 
 
@@ -15,31 +15,28 @@ def test_config_json_is_valid():
     assert "prefix" in data
 
 
-def test_visary_ast_has_no_undefined_names():
+def test_visary_symtable_has_no_undefined_globals():
     source = (REPO_DIR / "Visary.py").read_text(encoding="utf-8")
-    tree = ast.parse(source)
-
-    defined = set(dir(builtins)) | {"__file__"}
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef, ast.ClassDef)):
-            defined.add(node.name)
-        elif isinstance(node, ast.Import):
-            for alias in node.names:
-                defined.add((alias.asname or alias.name).split(".")[0])
-        elif isinstance(node, ast.ImportFrom):
-            for alias in node.names:
-                defined.add(alias.asname or alias.name)
-        elif isinstance(node, ast.Name) and isinstance(node.ctx, ast.Store):
-            defined.add(node.id)
-        elif isinstance(node, ast.arg):
-            defined.add(node.arg)
-        elif isinstance(node, ast.ExceptHandler) and node.name:
-            defined.add(node.name)
+    top = symtable.symtable(source, "Visary.py", "exec")
+    builtin_names = set(dir(builtins)) | {"__file__", "__name__"}
+    module_defined = {
+        s.get_name()
+        for s in top.get_symbols()
+        if s.is_assigned() or s.is_imported() or s.is_namespace()
+    }
 
     undefined = []
-    for node in ast.walk(tree):
-        if isinstance(node, ast.Name) and isinstance(node.ctx, ast.Load):
-            if node.id not in defined:
-                undefined.append((node.lineno, node.id))
-    assert undefined == [], f"Undefined names: {undefined}"
+
+    def walk(table):
+        for s in table.get_symbols():
+            name = s.get_name()
+            if s.is_global() and not s.is_assigned() and not s.is_imported():
+                if name not in module_defined and name not in builtin_names:
+                    undefined.append((table.get_name(), table.get_lineno(), name))
+        for child in table.get_children():
+            walk(child)
+
+    walk(top)
+    assert undefined == [], f"Undefined globals in lexical scopes: {undefined}"
+
 
