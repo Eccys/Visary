@@ -295,9 +295,9 @@ async def tokeninfo(ctx, _token):
         res = requests.get('https://canary.discordapp.com/api/v6/users/@me', headers=headers)
         res = res.json()
         user_id = res['id']
-        locale = res['locale']
-        avatar_id = res['avatar']
-        language = languages.get(locale)
+        locale = res.get('locale') or ''
+        avatar_id = res.get('avatar')
+        language = languages.get(locale, '')
         creation_date = datetime.datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime(
             '%d-%m-%Y %H:%M:%S UTC')
     except KeyError:
@@ -309,17 +309,17 @@ async def tokeninfo(ctx, _token):
             res = requests.get('https://canary.discordapp.com/api/v6/users/@me', headers=headers)
             res = res.json()
             user_id = res['id']
-            locale = res['locale']
-            avatar_id = res['avatar']
-            language = languages.get(locale)
+            locale = res.get('locale') or ''
+            avatar_id = res.get('avatar')
+            language = languages.get(locale, '')
             creation_date = datetime.datetime.utcfromtimestamp(((int(user_id) >> 22) + 1420070400000) / 1000).strftime(
                 '%d-%m-%Y %H:%M:%S UTC')
             em = discord.Embed(
-                description=f"Name: `{res['username']}#{res['discriminator']} ` **BOT**\nID: `{res['id']}`\nEmail: `{res['email']}`\nCreation Date: `{creation_date}`")
+                description=f"Name: `{res.get('username')}#{res.get('discriminator')} ` **BOT**\nID: `{res['id']}`\nEmail: `{res.get('email')}`\nCreation Date: `{creation_date}`")
             fields = [
-                {'name': 'Flags', 'value': res['flags']},
-                {'name': 'Local language', 'value': res['locale'] + f"{language}"},
-                {'name': 'Verified', 'value': res['verified']},
+                {'name': 'Flags', 'value': res.get('flags')},
+                {'name': 'Local language', 'value': f"{locale}{language}"},
+                {'name': 'Verified', 'value': res.get('verified')},
             ]
             for field in fields:
                 if field['value']:
@@ -329,7 +329,7 @@ async def tokeninfo(ctx, _token):
         except KeyError:
             return await ctx.send("Invalid token")
     em = discord.Embed(
-        description=f"Name: `{res['username']}#{res['discriminator']}`\nID: `{res['id']}`\nEmail: `{res['email']}`\nCreation Date: `{creation_date}`")
+        description=f"Name: `{res.get('username')}#{res.get('discriminator')}`\nID: `{res['id']}`\nEmail: `{res.get('email')}`\nCreation Date: `{creation_date}`")
     nitro_type = "None"
     if "premium_type" in res:
         if res['premium_type'] == 2:
@@ -337,11 +337,11 @@ async def tokeninfo(ctx, _token):
         elif res['premium_type'] == 1:
             nitro_type = "Nitro Classic"
     fields = [
-        {'name': 'Phone', 'value': res['phone']},
-        {'name': 'Flags', 'value': res['flags']},
-        {'name': 'Local language', 'value': res['locale'] + f"{language}"},
-        {'name': 'MFA', 'value': res['mfa_enabled']},
-        {'name': 'Verified', 'value': res['verified']},
+        {'name': 'Phone', 'value': res.get('phone')},
+        {'name': 'Flags', 'value': res.get('flags')},
+        {'name': 'Local language', 'value': f"{locale}{language}"},
+        {'name': 'MFA', 'value': res.get('mfa_enabled')},
+        {'name': 'Verified', 'value': res.get('verified')},
         {'name': 'Nitro', 'value': nitro_type},
     ]
     for field in fields:
